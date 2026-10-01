@@ -1,7 +1,15 @@
 [project]
 name = "adaptiveacquisition"
 version = "0.1.0"
-description = "Add your description here"
+description = "Experimental framework for adaptive information acquisition"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+    "datasets>=5.0.1",
+    "numpy>=2.2.6",
+    "pandas>=2.3.3",
+    "pyarrow>=25.0.1",
+    "pydantic>=2.13.5",
+    "pyyaml>=6.0.3",
+    "tqdm>=4.70.1",
+]

@@ -1,0 +1,20 @@
+experiment:
+  name: hotpot_pilot_v1
+  seed: 42
+
+dataset:
+  name: hotpotqa
+  split: distractor
+  n_questions: 10
+
+model:
+  provider: "HuggingFace"
+  name: "distilbert/distilbert-base-cased-distilled-squad"
+  temperature: 0.0
+  max_new_tokens: 128
+
+evaluation:
+  normalize_answers: true
+
+logging:
+  save_raw_outputs: true
