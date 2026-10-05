@@ -1,7 +1,7 @@
 """
 This file downloads the following items:
 * "distilbert/distilbert-base-cased-distilled-squad"
-* 
+* HotpotQA dataset
 
 """
 ##### Imports
