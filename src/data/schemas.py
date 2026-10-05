@@ -45,7 +45,7 @@ class Question:
     contexts: list[Context] = field(
         default_factory=list
     )
-    supporting_facts = list[SupportingFact] = field(
+    supporting_facts: list[SupportingFact] = field(
         default_factory=list
     )
 

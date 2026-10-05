@@ -4,7 +4,6 @@ This file will load the HotpotQA dataset
 ##### Libraries
 #### General usage
 import hashlib, json, os
-from pathlib import Path
 from datasets import load_from_disk
 #### Data structures
 from .schemas import Context, Question, SupportingFact
@@ -36,7 +35,10 @@ def load_hotpotqa() -> list[Question]:
         contexts = []
         supporting_facts = []
 
-        for title, sentences in question_info['context']:
+        for title, sentences in zip(
+            question_info['context']['title'],
+            question_info['context']['sentences']
+        ):
             contexts.append(
                 Context(
                     title=title,
@@ -44,7 +46,10 @@ def load_hotpotqa() -> list[Question]:
                 )
             )
 
-        for title, sentence_id in question_info['supporting_facts']:
+        for title, sentence_id in zip(
+            question_info['supporting_facts']['title'],
+            question_info['supporting_facts']['sent_id']
+        ):
             supporting_facts.append(
                 SupportingFact(
                     title=title,
