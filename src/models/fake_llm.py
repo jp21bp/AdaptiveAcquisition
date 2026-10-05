@@ -18,7 +18,7 @@ class FakeLLM:
             self_reported_confidence=50.5,
             input_tokens=len(prompt.split()),
             output_tokens=len(fake_answer.split()),
-            latency_ms=(time.perf_counter - start)*1000,
+            latency_ms=(time.perf_counter() - start)*1000,
             raw_output=f'ANSWER:{fake_answer}\nCONFIDENCE: 50.5'
         )
 

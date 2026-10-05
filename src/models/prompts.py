@@ -19,8 +19,7 @@ Question:
 {question}
 
 Evidence:
-{evidence_text if evidence_text\
-    else 'No external evidence was provided.'}
+{evidence_text if evidence_text else 'No external evidence was provided.'}
 
 Instructions:
 1. Answer the question as accurately as possible.
