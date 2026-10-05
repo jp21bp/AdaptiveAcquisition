@@ -32,5 +32,4 @@ Return exactly the following format:
 
 ANSWER: <short answer>
 CONFIDENCE: <number from 0 to 100>
-
 """
