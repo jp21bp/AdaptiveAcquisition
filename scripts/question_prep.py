@@ -66,7 +66,8 @@ def main():
     save_output = CWD.joinpath(
         'data', 
         'processed',
-        f'{args.yaml_filename}_questions.jsonl'
+        f'{args.yaml_filename}',
+        'questions.jsonl'
     )
     ### Edge case
     if Path(save_output).exists():
@@ -95,7 +96,8 @@ def main():
     freeze_output = CWD.joinpath(
         'data', 
         'processed',
-        f'{args.yaml_filename}_question_ids.json'
+        f'{args.yaml_filename}',
+        'question_ids.json'
     )
     ### Edge case
     if Path(freeze_output).exists():
