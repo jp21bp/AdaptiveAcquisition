@@ -49,6 +49,7 @@ class DenseRetriever:
                     document_texts, normalize_embeddings=True
                 )
         # Query scored through matrix multiplication
+            # Normalized embeds => dot product is cosimne similarity
         doc_embeds_arr = np.asarray(document_embeddings)
         query_embed_arr = np.asarray(query_embedding)
         scores = doc_embeds_arr @ query_embed_arr
