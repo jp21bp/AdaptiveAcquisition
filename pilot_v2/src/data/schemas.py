@@ -18,6 +18,8 @@ class SupportingFact:
 class Context:
     # Used to store HotpotQA's context for each Q
         # Each context contains two fields: 'title' and 'sentences'
+    # Note: each Q has got 10 associated Context componentes
+        # Each component has 1 title, but the sentences vary
     # Associated: '/src/data/hotpot_loader.py'
     title: str
     sentences: list[str]
@@ -30,8 +32,9 @@ class Context:
 class Document:
     # Used to store the documents retrieved by retriever
         # In pilot_v2, these will be HotpotQA's contexts 
+        # Each questions has 10 'Context' components
     document_id: str
-        # Format: "{question's SHA encoding}: {retrieved rank??}"
+        # Format: "{question's SHA encoding}: {associated 'Context' order}"
     title: str
         # Context's title
     sentences: list[str]
@@ -45,9 +48,9 @@ class Document:
 class Evidence:
     evidence_id: str
         # For pilot_v2: Will be the retrieved document's 'document_id'
-        # Format: "{question's SHA encoding}: {retrieved rank??}"
+        # Format: "{question's SHA encoding}: {associated 'Context' order}"
     document_id: str
-        # Format: "{question's SHA encoding}: {retrieved rank??}"
+        # Format: "{question's SHA encoding}: {associated 'Context' order}"
     title: str
         # Document's title == Context's title
     # sentence_id: int 
