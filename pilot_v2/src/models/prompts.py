@@ -8,12 +8,12 @@ def build_answer_prompt(
 ):
     ### Formatting evidence
     evidence_text = "\n\n".join(
-        f'[Evidence {i+1}] -- {text}'
+        f'[Document {i+1}] -- {text}'
         for i, text in enumerate(evidence)
     )
 
     return f"""
-You are answering a question using the supplied evidence.
+Answer the question using the provided documents.
 
 Question:
 {question}
@@ -22,13 +22,14 @@ Evidence:
 {evidence_text if evidence_text else 'No external evidence was provided.'}
 
 Instructions:
-1. Answer the question as accurately as possible.
-2. Use the evidence when it is available.
-3. Do not invent facts that are unsupported by the evidence.
-4. If the evidence is insufficient, say so.
+- Give a concise answer.
+- Use the documents as evidence.
+- Do not assume that every document is relevant.
+- Do not invent unsupported information.
+- If the documents do not provide enough information, state that explicitly.
 
 Return exactly the following format:
 
-ANSWER: <short answer>
+ANSWER: <answer>
 CONFIDENCE: <number from 0 to 100>
 """
