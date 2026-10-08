@@ -1,9 +1,10 @@
 """
 Creates the dense retriever 
 """
+import time
 import numpy as np
 from sentence_transformers import SentenceTransformer
-from ..data.schemas import Document, Evidence
+from ..data.schemas import Document, Evidence, RetrievalResult
 
 class DenseRetriever:
 
@@ -25,6 +26,8 @@ class DenseRetriever:
         documents: list[Document],
         k: int
     ) -> list[Evidence]:
+        # Starting latency timer
+        start = time.perf_counter()
         # Gathering 'Context' concatenated sentences
         document_texts = [doc.text for doc in documents]
         # Embeddings
@@ -57,7 +60,7 @@ class DenseRetriever:
         ranked_indices = np.argsort(scores)[::-1]
         selected = ranked_indices[:k]
         # Turning retrieved docs into 'Evidence' 
-        return [
+        evidence = [
             Evidence(
                 evidence_id=documents[i].document_id,
                 document_id=documents[i].document_id,
@@ -73,7 +76,20 @@ class DenseRetriever:
                 selected,
                 start=1,
             )
-        ]            
+        ]     
+        # Stopping timer
+        latency_ms = (time.perf_counter() - start) * 1000
+        # Turning retrieved documents into 'RetrievalResult'
+        return RetrievalResult(
+            method=self.name,
+            evidence=evidence,
+            latency_ms=latency_ms,
+            documents_considered=len(documents),
+            documents_returned=len(evidence),
+            retrieval_calls=1
+        )
+   
+
             
         
 

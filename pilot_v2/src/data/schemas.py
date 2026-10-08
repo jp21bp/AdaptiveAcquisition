@@ -65,6 +65,22 @@ class Evidence:
     retrieval_score: float | None = None
         # Score assigned by each retriever
 
+##### Retrieval based
+@dataclass
+class RetrievalResult:
+    method:str
+        # Retriever used
+    evidence: list[Evidence]
+        # "Docuemnt"s retrieved
+    latency_ms: float
+        # Retrieval duration
+    documents_considered: int
+        # Len(corpus_explored)
+    documents_returned: int
+        # Len(evidence)
+    retrieval_calls: int
+        # Number of times the retriever was called
+
 
 ##### QA-based
 @dataclass

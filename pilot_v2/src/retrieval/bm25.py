@@ -1,9 +1,9 @@
 """
 Implements BM25 retriever
 """
-import re
+import re, time
 from rank_bm25 import BM25Okapi
-from ..data.schemas import Document, Evidence
+from ..data.schemas import Document, Evidence, RetrievalResult
 
 ##### Tokenize text, needed for BM25 retriever
 def tokenize(text: str) -> list[str]:
@@ -20,6 +20,8 @@ class BM25Retriever:
         documents: list[Document],
         k: int
     ) -> list[Evidence]:
+        # Starting latency timer
+        start = time.perf_counter()
         # Tokenizing documents and query
         tokenized_docs = [tokenize(doc.text) for doc in documents]
             # Recall: 'doc.text' = concatenation of all sentences in 'Context.sentences'
@@ -37,8 +39,8 @@ class BM25Retriever:
         )
         # Selecting top k documents
         selected = ranked_indices[:k]
-        # Turning retrieved documents into 'Evidence'
-        return [
+        # Transformando 'selcted' into 'list[Evidence]'
+        evidence = [
             Evidence(
                 evidence_id=documents[i].document_id,
                 document_id=documents[i].document_id,
@@ -49,6 +51,17 @@ class BM25Retriever:
                 retrieval_score=float(scores[i])
             ) for rank, i in enumerate(selected, start=1)
         ]
+        # Stopping timer
+        latency_ms = (time.perf_counter() - start) * 1000
+        # Turning retrieved documents into 'RetrievalResult'
+        return RetrievalResult(
+            method=self.name,
+            evidence=evidence,
+            latency_ms=latency_ms,
+            documents_considered=len(documents),
+            documents_returned=len(evidence),
+            retrieval_calls=1
+        )
 
 
 

@@ -1,9 +1,9 @@
 """
 Random retriever, used as baseline
 """
-import random, hashlib
+import random, hashlib, time
 
-from ..data.schemas import Document, Evidence
+from ..data.schemas import Document, Evidence, RetrievalResult
 
 class RandomRetriever:
 
@@ -18,6 +18,8 @@ class RandomRetriever:
         documents: list[Document],
         k: int
     ) -> list[Evidence]:
+        # Starting latency timer
+        start = time.perf_counter()
         # Creating a query SHA encoding
         query_sha = int(
             hashlib.sha256(
@@ -36,7 +38,7 @@ class RandomRetriever:
         # Selecting top k retrieved docs
         selected = candidates[:k]
         # Turning retrieved docs into 'Evidence'
-        return [
+        evidence = [
             Evidence(
                 evidence_id=doc.document_id,
                 document_id=doc.document_id,
@@ -48,4 +50,16 @@ class RandomRetriever:
             ) for rank, doc in enumerate(
                 selected, start=1
             )
-        ]
+        ]    
+        # Stopping timer
+        latency_ms = (time.perf_counter() - start) * 1000
+        # Turning retrieved documents into 'RetrievalResult'
+        return RetrievalResult(
+            method=self.name,
+            evidence=evidence,
+            latency_ms=latency_ms,
+            documents_considered=len(documents),
+            documents_returned=len(evidence),
+            retrieval_calls=1
+        )
+
