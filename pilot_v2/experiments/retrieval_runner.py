@@ -16,6 +16,7 @@ class RetrievalExperiment:
     def __init__(self, llm, evaluator):
         self.llm = llm
         self.evaluator = evaluator
+            # Associated: /src/evaluation/evaluator.py'
 
     def run(
         self, 
@@ -27,12 +28,14 @@ class RetrievalExperiment:
     ):
         # Turning Q's 'Context' into 'Document's
         documents = question_documents(question)
-        # Gather 'list[Evidence]' from retrieval execution
-        evidences_retrieved = retriever.retrieve(
+        # Executing retriever method
+        retrieval = retriever.retrieve(
             question.question,
             documents,
             k
         )
+        # Gather 'list[Evidence]' from retrieval execution
+        evidences_retrieved = retrieval.evidence
         # Invoking LLM
         prompt = build_answer_prompt(
             question.question,
@@ -56,6 +59,9 @@ class RetrievalExperiment:
             "f1": evaluation.f1,
             "correct": evaluation.correct,
             "evidence_coverage": evaluation.evidence_coverage,
+            "retrieval_latency_ms": retrieval.latency_ms,
+            "llm_latency_ms": answer.latency_ms,
+            "retrieved_documents":[e.title for e in evidences_retrieved]
         }
 
 
