@@ -134,6 +134,8 @@ class ExperimentRunner:
 
   "document_recall": 1.0,
   "evidence_coverage": 1.0,
+    # SAme as document_recall for pilto v2
+        # Since we're retrieveing at the document level, not sentence level
 
   "retrieved_documents": [
     "The Oberoi Group",

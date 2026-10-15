@@ -11,6 +11,7 @@ def document_recall(
     question: Question
 ) -> float:
     # Retrieving information
+    if not evidence: return 0.0
     retrieved_titles = {e.title for e in evidence}
     gold_titles = {sf.title for sf in question.supporting_facts}
     # Returning recall

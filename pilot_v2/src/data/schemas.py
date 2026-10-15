@@ -151,6 +151,9 @@ class EvaluationResult:
     # Associated: 
         # '/src/evaluation/evaluator.py'
         # '/src/evaluation/eval_evidence.py'
+    # Importante:
+        # In pilot_v2, retrieval is done at document
+                # granulairty, not sentence granularity
     exact_match: float
         # LLM answer exactly matches HotpotQA answer
     f1: float
@@ -158,13 +161,18 @@ class EvaluationResult:
     correct: bool
         # Bool of 'exact_match'
 
-    supporting_facts_retrieved: int
-        # Intersection of retrieved docs and Hotpot's supporting info
-    supporting_facts_total: int
-        # Length of hotpot's supporting info
-    evidence_coverage: float
-        # Recall of hotpot's supporting info
-            # Len(intersection)/len(supporting_facts)
+
+    # Sentence granularity
+    # supporting_facts_retrieved: int 
+    #     # Intersection of retrieved docs and Hotpot's supporting info
+    # supporting_facts_total: int
+    #     # Length of hotpot's supporting info
+    # evidence_coverage: float
+    #     # Recall of hotpot's supporting info
+    #         # Len(intersection)/len(supporting_facts)
+
+    # Document granularity
+    evidence_recall: int
 
 
 ##### Environment-based
