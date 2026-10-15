@@ -1,5 +1,5 @@
 experiment:
-  name: hotpot_pilot_v1
+  name: hotpot_pilot_v2
   seed: 42
 
 dataset:
