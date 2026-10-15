@@ -35,12 +35,12 @@ model.save_pretrained(MODEL_LOCAL_PATH)
 
 ##### Usage
 # tokenizer = AutoTokenizer.from_pretrained(
-#     LOCAL_PATH,
+#     MODEL_LOCAL_PATH,
 #     local_files_only=True
 # )
 
 # model = AutoModelForQuestionAnswering.from_pretrained(
-#     LOCAL_PATH,
+#     MODEL_LOCAL_PATH,
 #     local_files_only=True
 # )
 
