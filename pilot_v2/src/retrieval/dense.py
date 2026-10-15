@@ -25,7 +25,7 @@ class DenseRetriever:
         query: str,
         documents: list[Document],
         k: int
-    ) -> list[Evidence]:
+    ) -> RetrievalResult:
         # Starting latency timer
         start = time.perf_counter()
         # Gathering 'Context' concatenated sentences

@@ -5,14 +5,17 @@ Main pilot_v2 runner
 from typing import Literal
 from ..src.retrieval.corpus import question_documents
 from ..src.retrieval.all_retrievals import build_retriever
+from ..src.evaluation.eval_retrieval import document_recall
 ##### Custom data structures
+import uuid
 from ..src.data.schemas import (
-    Question, Evidence, AgentState
+    Question, AgentState, AnswerResult
 )
 from ..src.evaluation.evaluator import Evaluator
 ##### Functions
 from ..src.models.prompts import build_answer_prompt
-
+##### Fake LLM
+from ..src.models.fake_llm import FakeLLM
 
 class ExperimentRunner:
     def __init__(self, llm, k: int):
@@ -54,20 +57,62 @@ class ExperimentRunner:
         )
         ## Invoking LLM
             # Associated: 'pilot_v2\src\models\fake_llm.py'
-            # Return unknown
-            #'llm_answer' might need further preprocessing
+            # Return AnswerResult
+            #'fake_llm.py' might need further preprocessing
                     # depending on the model's output structure
-                # Note: file 'pilot_v2\src\evaluation\evaluator.py'
-                        # expects 'llm_answer' to have a '.answer' field
-        llm_answer = self.llm.generate(prompt)
+        # llm_answer = self.llm.generate(prompt)
+        llm_invoked = FakeLLM().generate(prompt)
         ## Evaluate LLM output
             # Associated: 'pilot_v2\src\evaluation\evaluator.py'
             # Returns EvaluationResult
         evaluation = self.evaluator.evaluate(
-            llm_answer,
+            llm_invoked,
             question,
             evidences_retrieved
         )
+        agent_state = AgentState(
+            state_id=str(uuid.uuid4()),
+            question_id=question.question_id,
+            evidence_ids=[
+                e.evidence_id for e
+                in evidences_retrieved
+            ],
+            answer=llm_invoked.answer,
+            self_reported_confidence=llm_invoked.self_reported_confidence,
+            correct=evaluation.correct,
+            f1=evaluation.f1,
+            input_tokens=llm_invoked.input_tokens or 0,
+            output_tokens=llm_invoked.output_tokens or 0,
+            llm_calls=1,
+            retrieval_calls=retrieval_result.retrieval_calls,
+            latency_ms=llm_invoked.latency_ms,
+            evidence_coverage=evaluation.evidence_coverage
+        )
+        return {
+            "experiment_id" :"pilot_v2",
+            "question_id": question.question_id,
+            "model_name": "distilbert/distilbert-base-cased-distilled-squad",
+            "retrieval_method": retriever.name,
+            "k": self.k,
+            "answer": llm_invoked.answer,
+            "gold_answer": question.answer,
+            "exact_match": evaluation.exact_match,
+            "f1": evaluation.f1,
+            "correct": evaluation.correct,
+            "document_recall": document_recall(
+                evidences_retrieved,
+                question
+            ),
+            "evidence_coverage": evaluation.evidence_coverage,
+            "retrieved_documents": evidences_retrieved,
+            "retrieval_latency_ms": retrieval_result.latency_ms,
+            "input_tokens": llm_invoked.input_tokens,
+            "output_tokens": llm_invoked.output_tokens,
+            "llm_latency_ms": llm_invoked.latency_ms,
+            "llm_calls": 1,
+            # "context_tokens": 
+        }
+
 
 {
   "experiment_id": "milestone2_v1",

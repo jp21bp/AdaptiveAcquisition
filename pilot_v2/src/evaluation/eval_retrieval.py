@@ -9,11 +9,11 @@ def document_recall(
 ) -> float:
     # Retrieving information
     retrieved_titles = {e.title for e in evidence}
-    true_titles = {sf.titles for sf in question.supporting_facts}
+    gold_titles = {sf.title for sf in question.supporting_facts}
     # Returning recall
-    if not true_titles: return 0.0
-    intersect = retrieved_titles & true_titles
-    return len(intersect)/len(true_titles)
+    if not gold_titles: return 0.0
+    intersect = retrieved_titles & gold_titles
+    return len(intersect)/len(gold_titles)
 
 
 

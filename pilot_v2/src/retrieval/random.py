@@ -17,7 +17,7 @@ class RandomRetriever:
         query: str,
         documents: list[Document],
         k: int
-    ) -> list[Evidence]:
+    ) -> RetrievalResult:
         # Starting latency timer
         start = time.perf_counter()
         # Creating a query SHA encoding

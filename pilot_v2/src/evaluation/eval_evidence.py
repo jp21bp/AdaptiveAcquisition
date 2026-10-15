@@ -17,7 +17,7 @@ def evidence_coverage(
 ) -> tuple[int, int, float]:
     #### Grouping retrieved data's metadata
     retrieved = {
-        (e.title, e.sentence_id)
+        (e.title, e.evidence_id)
         for e in evidence
     }
     #### Grouping supporting data's metada
