@@ -8,19 +8,19 @@ from typing import Any
 ##### Evidence-based
 @dataclass
 class SupportingFact:
+    # Associated: '/src/data/hotpot_loader.py'
     # Used to store HotpotQA's supporting fact for each Q
         # Each supporting fact contains two fields: title and a sentence_id
-    # Associated: '/src/data/hotpot_loader.py'
     title: str
     sentence_id: int
 
 @dataclass
 class Context:
+    # Associated: '/src/data/hotpot_loader.py'
     # Used to store HotpotQA's context for each Q
         # Each context contains two fields: 'title' and 'sentences'
     # Note: each Q has got 10 associated Context componentes
         # Each component has 1 title, but the sentences vary
-    # Associated: '/src/data/hotpot_loader.py'
     title: str
     sentences: list[str]
 
@@ -30,6 +30,7 @@ class Context:
 
 @dataclass
 class Document:
+    # Associated: 'pilot_v2\src\retrieval\corpus.py'
     # Used to store the documents retrieved by retriever
         # In pilot_v2, these will be HotpotQA's contexts 
         # Each questions has 10 'Context' components
@@ -46,6 +47,7 @@ class Document:
 
 @dataclass
 class Evidence:
+    # Associated: 'pilot_v2_dirty\src\retrieval\{bm25,dense,...}.py'
     evidence_id: str
         # For pilot_v2: Will be the retrieved document's 'document_id'
         # Format: "{question's SHA encoding}: {associated 'Context' order}"
@@ -68,10 +70,11 @@ class Evidence:
 ##### Retrieval based
 @dataclass
 class RetrievalResult:
+    # Associated: 'pilot_v2_dirty\src\retrieval\{bm25,dense,...}.py'
     method:str
         # Retriever used
     evidence: list[Evidence]
-        # "Docuemnt"s retrieved
+        # "Document"s retrieved
     latency_ms: float
         # Retrieval duration
     documents_considered: int
@@ -81,6 +84,17 @@ class RetrievalResult:
     retrieval_calls: int
         # Number of times the retriever was called
 
+@dataclass
+class RetrievalAction:
+    # Associated: 'pilot_v2_dirty\experiments\pilot_v2_exp.py'
+    method: str
+        # Retrieval action chosen
+    k: int
+        # Number of documents retrieved
+
+    @property
+    def action_type(self) -> str:
+        return f"{self.method}_top_{self.k}"
 
 ##### QA-based
 @dataclass
@@ -109,9 +123,11 @@ class Question:
 
 @dataclass
 class AnswerResult:
+    # Associated: '/evaluation/parser.py'  
+        # Used in the LLM's generator
+            # EX: '/models/fake_llm.py'
     # Stores LLM's answer, which ideally has:
         # "ANSWER: .... \n CONFIDENCE: ..."
-    # Associated: '/evaluation/parser.py'
     answer: str
         # LLM's 'ANSWER'
     self_reported_confidence: float | None
@@ -190,6 +206,7 @@ class AgentState:
 
 @dataclass
 class Transition: 
+    # To be implemented 
     transition_id: str
 
     question_id: str
