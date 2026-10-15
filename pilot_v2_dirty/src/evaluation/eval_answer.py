@@ -36,11 +36,11 @@ def normalize_answer(text: str) -> str:
 ##### Checking if prediction and answer are exact matches
 def exact_match(
     prediction: str,
-    true: str
+    gold: str
 ) -> float:
     return float(
         normalize_answer(prediction)
-        == normalize_answer(true)
+        == normalize_answer(gold)
     )
 
 
