@@ -6,10 +6,7 @@ from ..data.schemas import Document, Evidence, RetrievalResult
 class NoRetriever:
 
     name = "none"
-
-    def __init__(self):
-        pass
-
+    
     def retrieve(
         self,
         query: str,
