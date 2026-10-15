@@ -135,6 +135,8 @@ class AnswerResult:
 
     input_tokens: int | None
         # Tokens in input query
+    context_tokens: int | None
+        # Tokens in context used for query
     output_tokens: int | None
         # Tokens in output query
 
