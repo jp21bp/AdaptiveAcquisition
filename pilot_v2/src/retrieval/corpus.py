@@ -26,3 +26,5 @@ def question_documents(question: Question) -> list[Document]:
                 sentences=context.sentences
             )
         )
+
+    return documents
