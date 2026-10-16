@@ -10,31 +10,35 @@ from transformers import (
 )
 from ..data.schemas import AnswerResult
 
-##### Model path
-MODEL_LOCAL_PATH = os.path.join(
-    os.getcwd(),
-    'downloads',
-    'distilbert'
-)
+# ##### Model path
+# MODEL_LOCAL_PATH = os.path.join(
+#     os.getcwd(),
+#     'downloads',
+#     'distilbert'
+# )
 
-##### Usage
-tokenizer = AutoTokenizer.from_pretrained(
-    MODEL_LOCAL_PATH,
-    local_files_only=True
-)
+# ##### Usage
+# tokenizer = AutoTokenizer.from_pretrained(
+#     MODEL_LOCAL_PATH,
+#     local_files_only=True
+# )
 
-model = AutoModelForQuestionAnswering.from_pretrained(
-    MODEL_LOCAL_PATH,
-    local_files_only=True
-)
+# model = AutoModelForQuestionAnswering.from_pretrained(
+#     MODEL_LOCAL_PATH,
+#     local_files_only=True
+# )
 
 ##### LLM-specific
 class LLM:
+    def __init__(self, model, tokenizer):
+        self.model = model
+        self.tokenizer = tokenizer
+
     def generate(self, prompt:str, context: str) -> AnswerResult:
         ## Start timer
         start_time = time.perf_counter()
         ## Tokenize inputs
-        inputs = tokenizer(
+        inputs = self.tokenizer(
             prompt, 
             context, 
             return_tensors="pt", 
@@ -46,13 +50,13 @@ class LLM:
         )
         ## Invoke the LLM
         with torch.no_grad():
-            outputs = model(**inputs)
+            outputs = self.model(**inputs)
         ## Parse the answer
         start_idx = torch.argmax(outputs.start_logits)
         end_idx = torch.argmax(outputs.end_logits) + 1
         ## Convert tokens to str
-        llm_response = tokenizer.convert_tokens_to_string(
-            tokenizer.convert_ids_to_tokens(
+        llm_response = self.tokenizer.convert_tokens_to_string(
+            self.tokenizer.convert_ids_to_tokens(
                 inputs["input_ids"][0][start_idx:end_idx]
             )
         )

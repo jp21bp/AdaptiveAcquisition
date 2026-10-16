@@ -13,23 +13,23 @@ from transformers import (
 )
 from ..data.schemas import AnswerResult
 
-##### Model path
-MODEL_LOCAL_PATH = os.path.join(
-    os.getcwd(),
-    'downloads',
-    'distilbert'
-)
+# ##### Model path
+# MODEL_LOCAL_PATH = os.path.join(
+#     os.getcwd(),
+#     'downloads',
+#     'distilbert'
+# )
 
-##### Usage
-tokenizer = AutoTokenizer.from_pretrained(
-    MODEL_LOCAL_PATH,
-    local_files_only=True
-)
+# ##### Usage
+# tokenizer = AutoTokenizer.from_pretrained(
+#     MODEL_LOCAL_PATH,
+#     local_files_only=True
+# )
 
-model = AutoModelForQuestionAnswering.from_pretrained(
-    MODEL_LOCAL_PATH,
-    local_files_only=True
-)
+# model = AutoModelForQuestionAnswering.from_pretrained(
+#     MODEL_LOCAL_PATH,
+#     local_files_only=True
+# )
 
 ##### LLM-specific
 class LLM:
