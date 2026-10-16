@@ -1,5 +1,10 @@
 """
 File will parse LLM answers
+
+Chosen model: "distilbert/distilbert-base-cased-distilled-squad"
+
+Function won't be used in this pilot_v2
+    Model chosen only returns context chars that best answer Q
 """
 import re
 

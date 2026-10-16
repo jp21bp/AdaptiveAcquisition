@@ -1,5 +1,10 @@
 """
 File contains the standard prompt for the model
+Chosen model: "distilbert/distilbert-base-cased-distilled-squad"
+
+This function won't be used in pilot_v2
+The chosen model doesn't generate new answers
+    It simply returns the context that is best answer to Q
 """
 
 def build_answer_prompt(

@@ -2,6 +2,9 @@
 Invokes a given LLM
 
 MODEL_NAME = "distilbert/distilbert-base-cased-distilled-squad"
+
+This model does not generate answers
+    It only returns the context chars that best answer a question
 """
 import torch, os, time
 from transformers import (
