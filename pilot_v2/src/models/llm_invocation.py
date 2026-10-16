@@ -33,6 +33,10 @@ from ..data.schemas import AnswerResult
 
 ##### LLM-specific
 class LLM:
+    def __init__(self, model, tokenizer):
+        self.model = model
+        self.tokenizer = tokenizer
+
     def generate(self, question:str, context: str) -> AnswerResult:
         # Assuming large prompt => separate chunks 
                 # => track sore internally to find best candidate
@@ -40,7 +44,7 @@ class LLM:
         start_time = time.perf_counter()
         ## Tokenize inputs
             # Configured for long contexts
-        all_inputs = tokenizer(
+        all_inputs = self.tokenizer(
             question,
             context, 
             mex_length=384,
@@ -73,7 +77,7 @@ class LLM:
             sequence_ids = all_inputs.sequence_ids(i)
             ## Model invocation on chunk
             with torch.no_grad():
-                outputs = model(**inputs)
+                outputs = self.model(**inputs)
             ## Restrict start/end predictions to context tokens
             valid = torch.tensor(
                 [sid == 1 for sid in sequence_ids],

@@ -57,7 +57,7 @@ class ExperimentRunner:
             # Associated: 'pilot_v2\src\models\llm_invocation.py'
             # Return AnswerResult
         context = "".join(e.text for e in evidences_retrieved)
-        llm_result = self.llm.generate(question, context)
+        llm_result = self.llm.generate(question.question, context)
         ## Evaluate LLM output
             # Associated: 'pilot_v2\src\evaluation\evaluator.py'
             # Returns EvaluationResult
@@ -82,7 +82,7 @@ class ExperimentRunner:
             llm_calls=1,
             retrieval_calls=retrieval_result.retrieval_calls,
             latency_ms=llm_result.latency_ms,
-            evidence_coverage=evaluation.evidence_coverage
+            evidence_coverage=evaluation.evidence_recall
         )
         return {
             "experiment_id" :"pilot_v2",

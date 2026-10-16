@@ -34,12 +34,12 @@ class LLM:
         self.model = model
         self.tokenizer = tokenizer
 
-    def generate(self, prompt:str, context: str) -> AnswerResult:
+    def generate(self, question:str, context: str) -> AnswerResult:
         ## Start timer
         start_time = time.perf_counter()
         ## Tokenize inputs
         inputs = self.tokenizer(
-            prompt, 
+            question, 
             context, 
             return_tensors="pt", 
                 # Returns PT tensors
@@ -99,7 +99,7 @@ class LLM:
         return AnswerResult(
             answer = llm_response,
             self_reported_confidence = best_score,
-            input_tokens = (len(prompt.split()) + len(context.split())),
+            input_tokens = (len(question.split()) + len(context.split())),
             context_tokens = len(context.split()),
             output_tokens = len(llm_response.split()),
             latency_ms = (end_time - start_time)*1000,

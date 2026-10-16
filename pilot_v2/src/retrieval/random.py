@@ -24,7 +24,8 @@ class RandomRetriever:
         query_sha = int(
             hashlib.sha256(
                 query.encode('utf-8')
-            ).hexdigest()[:8]
+            ).hexdigest()[:8],
+            16
         )
         # Unique generator based on seed and query
             # Thus diff queries will retrieve diff docs
